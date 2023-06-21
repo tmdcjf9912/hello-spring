@@ -4,12 +4,14 @@ import hello.hellospring.domain.Member;
 import hello.hellospring.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 //@Service , @Controller, @Repository 는 모두 @Component : 같은 패키지안에서만 찾아서 연결해줌
 //그리고 기본적으로 싱글톤으로 등록함 (딱하나만 등록) 따라서 같은 스프링 빈이면 모두 같은 인스턴스이다.
 //@Service//스프링빈 등록: 컴포넌트 스캔방식 // 자바코드로 직접 스프링 빈 등록하기위해서 주석처리
+@Transactional
 public class MemberService {
     private final MemberRepository memberRepository;
 
@@ -23,7 +25,7 @@ public class MemberService {
 
     //회원가입
     public Long join(Member member){
-        validateDuplicateMember(member);
+        validateDuplicateMember(member); //중복회원검증
         memberRepository.save(member);
         return member.getId();
     }
